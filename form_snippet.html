@@ -1,0 +1,47 @@
+<form method="post" action-xhr="https://4octt1ou61.execute-api.us-east-1.amazonaws.com/inquiry" target="_top"
+	on="submit:sender.hide;submit-error:sender.show">
+	<fieldset>
+		<label>
+			<span>Full Name:</span>
+			<input type="text" name="name" placeholder="Enter your name" required />
+		</label>
+		<br>
+
+		<label>
+			<span>Email:</span>
+			<input type="email" name="email" placeholder="your@email.com" required />
+		</label>
+		<br>
+
+		<label>
+			<span>Subject:</span>
+			<input type="text" name="subject" placeholder="Enter the subject" required />
+		</label>
+		<br>
+
+		<label>
+			<span>Message:</span>
+			<textarea name="message" placeholder="Enter your message here" required></textarea>
+		</label>
+		<br>
+
+		<div id="control">
+			<div id=sender>
+				<input type="submit" value="Send" id="btn-send" />
+			</div>
+			<div submitting>
+				Sending message..
+				<div class="slider"><div class="line"></div><div class="subline inc"></div><div class="subline dec"></div></div>
+			</div>
+			<div submit-success>
+				Your message was successfully sent!
+			</div>
+			<div submit-error>
+				Failed to send! Try contacting via facebook?
+			</div>
+		</div>
+		<br>
+	
+	</fieldset>
+
+</form>
