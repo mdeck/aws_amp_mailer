@@ -51,3 +51,27 @@ def send_email(data):
         },
         ReplyToAddresses=[f"{data['name']} <{data['email']}>",],
     )
+
+
+def parse_form(event):
+    ct_header = event['headers']['content-type']
+    body = base64.b64decode(event['body']).decode()
+
+    src = f'Content-Type: {ct_header}\n\n{body}'
+    msg = email.parser.Parser().parsestr(src)
+
+    name_of = lambda p: p.get_param('name', header='content-disposition')
+    return {name_of(p): p.get_payload() for p in msg.get_payload()}
+
+
+def build_body_text(data):
+    return f'''
+        The following message was submitted via the k2photo.gallery inquiry form:
+        
+        Sender: {data['name']} ({data['email']})
+        
+        Subject: {data['subject']}
+        
+        Message:
+        {data['message']}
+    '''
