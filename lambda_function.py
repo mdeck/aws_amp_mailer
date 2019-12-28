@@ -1,4 +1,4 @@
-import base64, boto3, email.parser, io, json
+import base64, boto3, email.parser, email.policy, io, json
 from botocore.exceptions import ClientError
 
 
@@ -58,10 +58,10 @@ def parse_form(event):
     body = base64.b64decode(event['body']).decode()
 
     src = f'Content-Type: {ct_header}\n\n{body}'
-    msg = email.parser.Parser().parsestr(src)
+    msg = email.parser.Parser(policy=email.policy.HTTP).parsestr(src)
 
-    name_of = lambda p: p.get_param('name', header='content-disposition')
-    return {name_of(p): p.get_payload() for p in msg.get_payload()}
+    name_of = lambda p: p['content-disposition'].params['name']
+    return {name_of(p): p.get_content() for p in msg.iter_parts()}
 
 
 def build_body_text(data):
